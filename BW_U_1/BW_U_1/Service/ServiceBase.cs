@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using BW_U_1.Models;
+using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace BW_U_1.Service
@@ -11,14 +12,16 @@ namespace BW_U_1.Service
         {
             _connection = new SqlConnection(configuration.GetConnectionString("AppDb"));
         }
-        public void GetCallAll(SqlConnection sqlConnection)
+        public List<Products> GetCallAll(SqlConnection sqlConnection)
         {
+            List<Products> products = new List<Products>();
             try
             {
                 _connection.Open();
                 string commandProducts = "SELECT * FROM Products";
                 using var command = new SqlCommand(commandProducts, (SqlConnection)_connection);
                 command.ExecuteNonQuery();
+                
             }
             catch(Exception ex) 
             {
