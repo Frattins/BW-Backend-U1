@@ -6,6 +6,7 @@ namespace BW_U_1.Controllers
 {
     public class HomeController : Controller
     {
+        //ciao ciao
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
