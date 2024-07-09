@@ -1,6 +1,6 @@
 ﻿namespace BW_U_1.Models
 {
-    public class CartItems
+    public class CartItem
     {
         public int IdCartItems { get; set; }
         public int ProductID { get; set; }

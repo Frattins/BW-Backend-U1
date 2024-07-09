@@ -1,25 +1,21 @@
-    using BW_U_1.Models;
+using BW_U_1.Models;
 using BW_U_1.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using 
-//testeststest
+
 namespace BW_U_1.Controllers
 {
     public class HomeController : Controller
     {
-        List<Products> products = new List<Products>();
-
         private readonly ILogger<HomeController> _logger;
         private readonly IService _service;
-
 
         public HomeController(ILogger<HomeController> logger, IService service)
         {
             _logger = logger;
             _service = service;
         }
-
 
         public IActionResult Index()
         {
@@ -28,8 +24,8 @@ namespace BW_U_1.Controllers
 
         public IActionResult All()
         {
-            products = _service.GetCallAll();
-            return View();
+            var products = _service.GetCallAll();
+            return View(products);
         }
 
         public IActionResult Privacy()
