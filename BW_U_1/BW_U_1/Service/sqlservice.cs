@@ -1,6 +1,6 @@
-﻿using BW_U_1.Models;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Data.SqlClient;
+using BW_U_1.Models;
 
 namespace BW_U_1.Service
 {
@@ -15,7 +15,24 @@ namespace BW_U_1.Service
 
         public void DeleteCall(int ID)
         {
-        
+            DeleteCartItemsByProductID(ID);
+
+            var com = "DELETE FROM Products where ProductID = @ID";
+            var command = GetCommand(com);
+            command.Parameters.Add(new SqlParameter("@ID", ID));
+            _connection.Open();
+            command.ExecuteNonQuery();
+            _connection.Close();
+        }
+
+        private void DeleteCartItemsByProductID(int productID)
+        {
+            var command = GetCommand("DELETE FROM CartItems WHERE ProductID = @productID");
+            _connection.Open();
+            command.Parameters.Add(new SqlParameter("@productID", productID));
+            command.ExecuteNonQuery();
+            _connection.Close();
+            Console.WriteLine($"CartItems eliminati per ProductID {productID}.");
         }
 
         public IEnumerable<Products> GetCallAll()
@@ -24,8 +41,7 @@ namespace BW_U_1.Service
 
             try
             {
-                using var conn = GetConnection();
-                conn.Open();
+                _connection.Open();
 
                 using var cmd = GetCommand("SELECT * FROM Products");
 
@@ -45,16 +61,11 @@ namespace BW_U_1.Service
             }
         }
 
-        public void GetCallOneID(int ID)
-        { }
-        
+        public void GetCallOneID(int ID) { }
 
-        public void UpdateCall(int ID, Products prodotto)
-        { }
+        public void UpdateCall(int ID, Products prodotto) { }
 
-        public void WriteCall(Products prodotto)
-        { }
-        
+        public void WriteCall(Products prodotto) { }
 
         protected override DbCommand GetCommand(string command)
         {
