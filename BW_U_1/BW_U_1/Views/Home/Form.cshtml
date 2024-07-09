@@ -1,0 +1,25 @@
+﻿@model Products
+
+<form asp-action="All" method="post">
+    <div>
+        <label asp-for=Name class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger">*Campo obbligatorio</span>
+
+        <label asp-for=DescriptionProd class="control-label"></label>
+        <input asp-for="DescriptionProd" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger">*Campo obbligatorio</span>
+
+        <label asp-for=Price class="control-label"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger">*Campo obbligatorio</span>
+
+        <label asp-for=Category class="control-label"></label>
+        <input asp-for="Category" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger">*Campo obbligatorio</span>
+    </div>
+
+    <button class="form-group btn btn-outline-dark mt-3">Salva</button>
+
+</form>
+

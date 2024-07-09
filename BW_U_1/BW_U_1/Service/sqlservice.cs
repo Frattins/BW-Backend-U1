@@ -8,11 +8,15 @@ namespace BW_U_1.Service
     {
         private SqlConnection _connection;
 
+        // FUNZIONE CHE CREA LA CONNESSIONE CON IL DB
         public sqlservice(IConfiguration configuration)
         {
             _connection = new SqlConnection(configuration.GetConnectionString("AppDb"));
         }
 
+        // *********************************************************************************
+
+        // FUNZIONE CHE ELIMINA UN PRODOTTO DALLA TABLE <PRODUCTS>
         public void DeleteCall(int ID)
         {
             DeleteCartItemsByProductID(ID);
@@ -25,6 +29,7 @@ namespace BW_U_1.Service
             _connection.Close();
         }
 
+        // FUNZIONE CHE ELIMINA UN PRODOTTO ANCHE NELLA TABLE <CART_ITEMS>
         private void DeleteCartItemsByProductID(int productID)
         {
             var command = GetCommand("DELETE FROM CartItems WHERE ProductID = @productID");
@@ -34,7 +39,10 @@ namespace BW_U_1.Service
             _connection.Close();
             Console.WriteLine($"CartItems eliminati per ProductID {productID}.");
         }
+        // *********************************************************************************
 
+
+        // FUNZIONE CHE PRENDE TUTTI I PRODOTTI
         public IEnumerable<Products> GetCallAll()
         {
             List<Products> products = new List<Products>();
@@ -61,22 +69,7 @@ namespace BW_U_1.Service
             }
         }
 
-        public void GetCallOneID(int ID) { }
-
-        public void UpdateCall(int ID, Products prodotto) { }
-
-        public void WriteCall(Products prodotto) { }
-
-        protected override DbCommand GetCommand(string command)
-        {
-            return new SqlCommand(command, _connection);
-        }
-
-        protected override DbConnection GetConnection()
-        {
-            return _connection;
-        }
-
+        // CREA UN PRODOTTO
         private Products CreateProd(DbDataReader reader)
         {
             return new Products
@@ -87,6 +80,35 @@ namespace BW_U_1.Service
                 Price = reader.GetDecimal(3),
                 Category = reader.GetString(4)
             };
+        }
+        // *********************************************************************************
+
+        // CREA UN NUOVO PRODOTTO
+        public void WriteCall(Products prodotto)
+        {
+
+        }
+        // *********************************************************************************
+
+        public void GetCallOneID(int ID) { }
+
+        // *********************************************************************************
+
+        public void UpdateCall(int ID, Products prodotto) { }
+
+        // *********************************************************************************
+
+        // FUNZIONI DI AUSILIO
+        // CREA UN COMANDO COME OBJ SQLCOMMAND E POI COME DBCOMMAND
+        protected override DbCommand GetCommand(string command)
+        {
+            return new SqlCommand(command, _connection);
+        }
+
+        // SERVE PER AVERE UNA CONNESSIONE CON IL DB 
+        protected override DbConnection GetConnection()
+        {
+            return _connection;
         }
     }
 }

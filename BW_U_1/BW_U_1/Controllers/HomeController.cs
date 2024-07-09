@@ -45,6 +45,13 @@ namespace BW_U_1.Controllers
             
         }
         // ***************
+
+        //FORM
+        public IActionResult Form()
+        {
+            var Prodotto = new Products();
+            return View(Prodotto); 
+        }
         public IActionResult Privacy()
         {
             return View();
