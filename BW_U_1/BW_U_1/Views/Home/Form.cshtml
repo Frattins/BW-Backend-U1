@@ -1,25 +1,28 @@
 ﻿@model Products
 
-<form asp-action="All" method="post">
-    <div>
-        <label asp-for=Name class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger">*Campo obbligatorio</span>
+<h2>Aggiungi un nuovo prodotto</h2>
 
-        <label asp-for=DescriptionProd class="control-label"></label>
-        <input asp-for="DescriptionProd" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger">*Campo obbligatorio</span>
-
-        <label asp-for=Price class="control-label"></label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger">*Campo obbligatorio</span>
-
-        <label asp-for=Category class="control-label"></label>
-        <input asp-for="Category" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger">*Campo obbligatorio</span>
+<form asp-action="BottoneForm" method="post">
+    <div class="form-group">
+        <label asp-for="NameProd" class="control-label"></label>
+        <input asp-for="NameProd" class="form-control" />
+        <span asp-validation-for="NameProd" class="text-danger"></span>
     </div>
-
-    <button class="form-group btn btn-outline-dark mt-3">Salva</button>
-
+    <div class="form-group">
+        <label asp-for="DescriptionProd" class="control-label"></label>
+        <input asp-for="DescriptionProd" class="form-control" />
+        <span asp-validation-for="DescriptionProd" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="control-label"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Category" class="control-label"></label>
+        <input asp-for="Category" class="form-control" />
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Aggiungi</button>
 </form>
 

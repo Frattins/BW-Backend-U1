@@ -44,14 +44,38 @@ namespace BW_U_1.Controllers
             return RedirectToAction("All");
             
         }
-        // ***************
+        // **********************************************
 
         //FORM
         public IActionResult Form()
         {
             var Prodotto = new Products();
+
+            _service.WriteCall(Prodotto);
             return View(Prodotto); 
         }
+        // bottone del form
+        [HttpPost]
+        public IActionResult BottoneForm(Products prodotto)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _service.WriteCall(prodotto);
+                    return RedirectToAction("All");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Errore durante l'inserimento del prodotto: " + ex.Message);
+                }
+            }
+            return View(prodotto); // In caso di errore, ritorna alla view con i dati immessi
+        }
+
+        // **********************************************
+
+
         public IActionResult Privacy()
         {
             return View();

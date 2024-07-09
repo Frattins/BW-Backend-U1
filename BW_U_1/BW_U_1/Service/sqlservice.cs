@@ -39,6 +39,7 @@ namespace BW_U_1.Service
             _connection.Close();
             Console.WriteLine($"CartItems eliminati per ProductID {productID}.");
         }
+
         // *********************************************************************************
 
 
@@ -75,19 +76,33 @@ namespace BW_U_1.Service
             return new Products
             {
                 IdProd = reader.GetInt32(0),
-                Name = reader.GetString(1),
+                NameProd = reader.GetString(1),
                 DescriptionProd = reader.GetString(2),
                 Price = reader.GetDecimal(3),
                 Category = reader.GetString(4)
             };
         }
+
         // *********************************************************************************
 
         // CREA UN NUOVO PRODOTTO
         public void WriteCall(Products prodotto)
         {
+            _connection.Open();
+            var command = GetCommand(
+            "INSERT INTO Products (NameProd, DescriptionProd, Price, Category) VALUES (@NameProd, @DescriptionProd, @Price, @Category)"
+        );
 
+            command.Parameters.Add(new SqlParameter("@NameProd", prodotto.NameProd ?? (object)DBNull.Value));
+            command.Parameters.Add(new SqlParameter("@DescriptionProd", prodotto.DescriptionProd ?? (object)DBNull.Value));
+            command.Parameters.Add(new SqlParameter("@Price", prodotto.Price));
+            command.Parameters.Add(new SqlParameter("@Category", prodotto.Category ?? (object)DBNull.Value));
+
+            command.ExecuteNonQuery();
+            Console.WriteLine("Prodotto inserito con successo");
+            _connection.Close();
         }
+
         // *********************************************************************************
 
         public void GetCallOneID(int ID) { }
@@ -105,7 +120,7 @@ namespace BW_U_1.Service
             return new SqlCommand(command, _connection);
         }
 
-        // SERVE PER AVERE UNA CONNESSIONE CON IL DB 
+        // SERVE PER AVERE UNA CONNESSIONE CON IL DB
         protected override DbConnection GetConnection()
         {
             return _connection;
