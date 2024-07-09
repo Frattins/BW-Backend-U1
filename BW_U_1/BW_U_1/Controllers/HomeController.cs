@@ -17,7 +17,6 @@ namespace BW_U_1.Controllers
             _logger = logger;
             _service = service;
         }
-
         // ***************
 
         //PRIMA PAGINA "HOME"
@@ -35,7 +34,8 @@ namespace BW_U_1.Controllers
             return View(products);
         }
 
-        //funzioni annesse
+        //Funzioni annesse
+        //Delete
         [HttpPost]
         public IActionResult ButtonElimina(int id)
         {
@@ -44,7 +44,6 @@ namespace BW_U_1.Controllers
             return RedirectToAction("All");
             
         }
-
         // ***************
         public IActionResult Privacy()
         {

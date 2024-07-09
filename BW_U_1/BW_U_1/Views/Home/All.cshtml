@@ -8,13 +8,20 @@
         <h5 class="card-title">@product.Name</h5>
         <h6 class="card-subtitle mb-2 text-body-secondary">@product.Category</h6>
             <p class="card-text">@product.Price</p>
+            @* Bottone per Eliminare*@
             <form method="post"  asp-action="ButtonElimina">
                 <input type="hidden" name="id" value="@product.IdProd" />
                 <button type="submit" class="btn btn-outline-dark">
                     Elimina Prodotto
                 </button>
             </form>
-        <a href="#" class="card-link">Another link</a>
+            @* Bottone per Modificare*@
+            <form method="post"  asp-action="">
+                <input type="hidden" name="id" value="@product.IdProd" />
+                <button type="submit" class="btn btn-outline-dark">
+                    Modifica Prodotto
+                </button>
+            </form>
       </div>
     </div>
  }
