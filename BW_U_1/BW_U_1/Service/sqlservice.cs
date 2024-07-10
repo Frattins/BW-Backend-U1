@@ -2,18 +2,25 @@
 using System.Data.Common;
 using System.Data.SqlClient;
 using BW_U_1.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace BW_U_1.Service
 {
-    public class sqlservice : abstractSQL, IService
+    public class SqlService : /*abstractSQL*/ ServiceCallSQL, IService
     {
         private SqlConnection _connection;
 
-        // FUNZIONE CHE CREA LA CONNESSIONE CON IL DB
-        public sqlservice(IConfiguration configuration)
+        public SqlService(IConfiguration configuration) : base(configuration)
         {
-            _connection = new SqlConnection(configuration.GetConnectionString("AppDb"));
         }
+
+        // FUNZIONE CHE CREA LA CONNESSIONE CON IL DB
+        //public sqlservice(IConfiguration configuration)
+        //{
+        //    _connection = new SqlConnection(configuration.GetConnectionString("AppDb"));
+        //}
+
+
 
         // *********************************************************************************
 
@@ -24,6 +31,7 @@ namespace BW_U_1.Service
 
             var com = "DELETE FROM Products where ProductID = @ID";
             var command = GetCommand(com);
+            var _connection = GetConnection();
             command.Parameters.Add(new SqlParameter("@ID", ID));
             _connection.Open();
             command.ExecuteNonQuery();
@@ -34,6 +42,7 @@ namespace BW_U_1.Service
         private void DeleteCartItemsByProductID(int productID)
         {
             var command = GetCommand("DELETE FROM CartItems WHERE ProductID = @productID");
+            _connection = (SqlConnection)GetConnection();
             _connection.Open();
             command.Parameters.Add(new SqlParameter("@productID", productID));
             command.ExecuteNonQuery();
@@ -51,6 +60,7 @@ namespace BW_U_1.Service
 
             try
             {
+                _connection = (SqlConnection)GetConnection();
                 _connection.Open();
 
                 using var cmd = GetCommand("SELECT * FROM Products");
@@ -89,6 +99,7 @@ namespace BW_U_1.Service
         // CREA UN NUOVO PRODOTTO
         public void WriteCall(Products prodotto)
         {
+            _connection = (SqlConnection)GetConnection();
             _connection.Open();
             var command = GetCommand(
                 "INSERT INTO Products (NameProd, DescriptionProd, Price, Category) VALUES (@NameProd, @DescriptionProd, @Price, @Category)"
@@ -109,6 +120,7 @@ namespace BW_U_1.Service
         public Products GetCallOneID(int ID)
         {
             var prodotto = new Products();
+            _connection = (SqlConnection)GetConnection();
             _connection.Open();
             var command = GetCommand("SELECT * FROM Products WHERE ProductID = @ID");
             command.Parameters.Add(new SqlParameter("@ID", ID));
@@ -143,6 +155,7 @@ namespace BW_U_1.Service
                 command.Parameters.Add(new SqlParameter("@Price", prodotto.Price));
                 command.Parameters.Add(new SqlParameter("@Category", prodotto.Category));
 
+                _connection = (SqlConnection)GetConnection();
                 _connection.Open();
 
                 var rowsAffected = command.ExecuteNonQuery();
@@ -155,15 +168,15 @@ namespace BW_U_1.Service
 
         // FUNZIONI DI AUSILIO
         // CREA UN COMANDO COME OBJ SQLCOMMAND E POI COME DBCOMMAND
-        protected override DbCommand GetCommand(string command)
-        {
-            return new SqlCommand(command, _connection);
-        }
+        //protected override DbCommand GetCommand(string command)
+        //{
+        //    return new SqlCommand(command, _connection);
+        //}
 
-        // SERVE PER AVERE UNA CONNESSIONE CON IL DB
-        protected override DbConnection GetConnection()
-        {
-            return _connection;
-        }
+        //// SERVE PER AVERE UNA CONNESSIONE CON IL DB
+        //protected override DbConnection GetConnection()
+        //{
+        //    return _connection;
+        //}
     }
 }

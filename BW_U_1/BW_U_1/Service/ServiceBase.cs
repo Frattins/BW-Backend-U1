@@ -6,7 +6,7 @@ using BW_U_1.Models;
 
 namespace BW_U_1.Service
 {
-    public class ServiceBase : sqlservice
+    public class ServiceBase : SqlService
     {
         public ServiceBase(IConfiguration config) : base(config) { }
 
