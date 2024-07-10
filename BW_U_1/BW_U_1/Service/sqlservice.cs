@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using BW_U_1.Models;
 
@@ -83,7 +84,6 @@ namespace BW_U_1.Service
             };
         }
 
-
         // *********************************************************************************
 
         // CREA UN NUOVO PRODOTTO
@@ -91,7 +91,7 @@ namespace BW_U_1.Service
         {
             _connection.Open();
             var command = GetCommand(
-            "INSERT INTO Products (NameProd, DescriptionProd, Price, Category) VALUES (@NameProd, @DescriptionProd, @Price, @Category)"
+                "INSERT INTO Products (NameProd, DescriptionProd, Price, Category) VALUES (@NameProd, @DescriptionProd, @Price, @Category)"
             );
 
             command.Parameters.Add(new SqlParameter("@NameProd", prodotto.NameProd));
@@ -106,12 +106,11 @@ namespace BW_U_1.Service
 
         // *********************************************************************************
 
-        public Products GetCallOneID(int ID) 
+        public Products GetCallOneID(int ID)
         {
             var prodotto = new Products();
             _connection.Open();
-            var command = GetCommand(
-            "SELECT * FROM Products WHERE ProductID = @ID");
+            var command = GetCommand("SELECT * FROM Products WHERE ProductID = @ID");
             command.Parameters.Add(new SqlParameter("@ID", ID));
             using (var reader = command.ExecuteReader())
                 if (reader.Read()) // Verifica se ci sono dati da leggere
@@ -124,10 +123,32 @@ namespace BW_U_1.Service
         // *********************************************************************************
 
         // Funzione Modifica
-        public void UpdateCall(int ID, Products prodotto) 
+        public void UpdateCall(int ID, Products prodotto)
         {
-            //var prodID = GetCallOneID(ID);
+            var command = GetCommand(
+                @"
+                UPDATE Products 
+                SET
+                    NameProd = @NameProd, 
+                    DescriptionProd = @DescriptionProd, 
+                    Price = @Price, 
+                    Category = @Category
+                WHERE ProductID = @ID"
+            );
 
+            {
+                command.Parameters.Add(new SqlParameter("@ID", ID));
+                command.Parameters.Add(new SqlParameter("@NameProd", prodotto.NameProd));
+                command.Parameters.Add(new SqlParameter("@DescriptionProd", prodotto.DescriptionProd));
+                command.Parameters.Add(new SqlParameter("@Price", prodotto.Price));
+                command.Parameters.Add(new SqlParameter("@Category", prodotto.Category));
+
+                _connection.Open();
+
+                var rowsAffected = command.ExecuteNonQuery();
+
+                _connection.Close();
+            }
         }
 
         // *********************************************************************************

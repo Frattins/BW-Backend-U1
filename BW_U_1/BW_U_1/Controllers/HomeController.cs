@@ -72,13 +72,21 @@ namespace BW_U_1.Controllers
 
         // **********************************************
 
-        public IActionResult One() 
+        public IActionResult FormModifica(int ID) 
         {
-            //var prod = new Products();
-            var prod = _service.GetCallOneID(3);
-            return View(prod);
+           var prodotto = _service.GetCallOneID(ID);
+            return View(prodotto);
         }
-        public IActionResult Privacy()
+
+        [HttpPost]
+        public IActionResult FormUpdate(int ID, Products prodotto)
+        {
+            _service.UpdateCall(prodotto.IdProd, prodotto);
+            return RedirectToAction("All");
+        }
+
+// **********************************************
+public IActionResult Privacy()
         {
             return View();
         }
