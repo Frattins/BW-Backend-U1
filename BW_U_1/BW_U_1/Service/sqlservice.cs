@@ -75,13 +75,14 @@ namespace BW_U_1.Service
         {
             return new Products
             {
-                IdProd = reader.GetInt32(0),
-                NameProd = reader.GetString(1),
-                DescriptionProd = reader.GetString(2),
-                Price = reader.GetDecimal(3),
-                Category = reader.GetString(4)
+                IdProd = reader.GetInt32(reader.GetOrdinal("ProductID")),
+                NameProd = reader.GetString(reader.GetOrdinal("NameProd")),
+                DescriptionProd = reader.GetString(reader.GetOrdinal("DescriptionProd")),
+                Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+                Category = reader.GetString(reader.GetOrdinal("Category"))
             };
         }
+
 
         // *********************************************************************************
 
@@ -91,12 +92,12 @@ namespace BW_U_1.Service
             _connection.Open();
             var command = GetCommand(
             "INSERT INTO Products (NameProd, DescriptionProd, Price, Category) VALUES (@NameProd, @DescriptionProd, @Price, @Category)"
-        );
+            );
 
-            command.Parameters.Add(new SqlParameter("@NameProd", prodotto.NameProd ?? (object)DBNull.Value));
-            command.Parameters.Add(new SqlParameter("@DescriptionProd", prodotto.DescriptionProd ?? (object)DBNull.Value));
+            command.Parameters.Add(new SqlParameter("@NameProd", prodotto.NameProd));
+            command.Parameters.Add(new SqlParameter("@DescriptionProd", prodotto.DescriptionProd));
             command.Parameters.Add(new SqlParameter("@Price", prodotto.Price));
-            command.Parameters.Add(new SqlParameter("@Category", prodotto.Category ?? (object)DBNull.Value));
+            command.Parameters.Add(new SqlParameter("@Category", prodotto.Category));
 
             command.ExecuteNonQuery();
             Console.WriteLine("Prodotto inserito con successo");
@@ -105,11 +106,29 @@ namespace BW_U_1.Service
 
         // *********************************************************************************
 
-        public void GetCallOneID(int ID) { }
+        public Products GetCallOneID(int ID) 
+        {
+            var prodotto = new Products();
+            _connection.Open();
+            var command = GetCommand(
+            "SELECT * FROM Products WHERE ProductID = @ID");
+            command.Parameters.Add(new SqlParameter("@ID", ID));
+            using (var reader = command.ExecuteReader())
+                if (reader.Read()) // Verifica se ci sono dati da leggere
+                {
+                    prodotto = CreateProd(reader);
+                }
+            return prodotto;
+        }
 
         // *********************************************************************************
 
-        public void UpdateCall(int ID, Products prodotto) { }
+        // Funzione Modifica
+        public void UpdateCall(int ID, Products prodotto) 
+        {
+            //var prodID = GetCallOneID(ID);
+
+        }
 
         // *********************************************************************************
 

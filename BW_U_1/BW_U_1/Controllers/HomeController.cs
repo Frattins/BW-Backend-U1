@@ -49,10 +49,7 @@ namespace BW_U_1.Controllers
         //FORM
         public IActionResult Form()
         {
-            var Prodotto = new Products();
-
-            _service.WriteCall(Prodotto);
-            return View(Prodotto); 
+            return View(); 
         }
         // bottone del form
         [HttpPost]
@@ -75,7 +72,12 @@ namespace BW_U_1.Controllers
 
         // **********************************************
 
-
+        public IActionResult One() 
+        {
+            //var prod = new Products();
+            var prod = _service.GetCallOneID(3);
+            return View(prod);
+        }
         public IActionResult Privacy()
         {
             return View();

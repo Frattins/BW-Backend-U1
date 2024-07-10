@@ -7,7 +7,7 @@ namespace BW_U_1.Service
     {
         public IEnumerable<Products> GetCallAll();
         public void DeleteCall(int ID);
-        public void GetCallOneID(int ID);
+        public Products GetCallOneID(int ID);
         public void UpdateCall(int ID, Products prodotto);
         public void WriteCall(Products prodotto);
     };
