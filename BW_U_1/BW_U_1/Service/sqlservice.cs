@@ -6,21 +6,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace BW_U_1.Service
 {
-    public class SqlService : /*abstractSQL*/ ServiceCallSQL, IService
+    public class SqlService : ServiceCallSQL, IService
     {
         private SqlConnection _connection;
 
         public SqlService(IConfiguration configuration) : base(configuration)
         {
         }
-
-        // FUNZIONE CHE CREA LA CONNESSIONE CON IL DB
-        //public sqlservice(IConfiguration configuration)
-        //{
-        //    _connection = new SqlConnection(configuration.GetConnectionString("AppDb"));
-        //}
-
-
 
         // *********************************************************************************
 
@@ -166,17 +158,30 @@ namespace BW_U_1.Service
 
         // *********************************************************************************
 
-        // FUNZIONI DI AUSILIO
-        // CREA UN COMANDO COME OBJ SQLCOMMAND E POI COME DBCOMMAND
-        //protected override DbCommand GetCommand(string command)
-        //{
-        //    return new SqlCommand(command, _connection);
-        //}
-
-        //// SERVE PER AVERE UNA CONNESSIONE CON IL DB
-        //protected override DbConnection GetConnection()
-        //{
-        //    return _connection;
-        //}
+        
     }
 }
+
+
+// ROBBA CHE C'ERA PRIMA:
+
+// FUNZIONE CHE CREA LA CONNESSIONE CON IL DB
+//public sqlservice(IConfiguration configuration)
+//{
+//    _connection = new SqlConnection(configuration.GetConnectionString("AppDb"));
+//}
+
+// FUNZIONI DI AUSILIO
+// CREA UN COMANDO COME OBJ SQLCOMMAND E POI COME DBCOMMAND
+//protected override DbCommand GetCommand(string command)
+//{
+//    return new SqlCommand(command, _connection);
+//}
+
+//// SERVE PER AVERE UNA CONNESSIONE CON IL DB
+//protected override DbConnection GetConnection()
+//{
+//    return _connection;
+//}
+
+/*abstractSQL*/
