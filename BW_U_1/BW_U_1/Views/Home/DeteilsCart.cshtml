@@ -1,0 +1,26 @@
+﻿@model List<EstensioneProd>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nome prodotto</th>
+            <th scope="col">Descrizione</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">prezzo</th>
+            <th scope="col">Quantità</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var detail in Model)
+        {
+            <tr>
+                <td>@detail.NameProd</td>
+                <td>@detail.DescriptionProd</td>
+                <td>@detail.Category</td>
+                <td>@detail.Price &#8364;</td>
+                <td>@detail.quantita</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -83,8 +83,8 @@ namespace BW_U_1.Service
                         WHERE Cartid = @Cartid AND ProductID = @IDProd"
                     );
                     {
-                        command.Parameters.Add(new SqlParameter("@Cartid", CarrId));
-                        command.Parameters.Add(new SqlParameter("@IDProd", IdProd));
+                        //command.Parameters.Add(new SqlParameter("@Cartid", CarrId));
+                        //command.Parameters.Add(new SqlParameter("@IDProd", IdProd));
                         command.Parameters.Add(new SqlParameter("@Quantità", quantita + 1));
 
                         command.ExecuteNonQuery();
@@ -99,7 +99,7 @@ namespace BW_U_1.Service
             }
         }
 
-        public int ControlItems(int IdProd, int ProductID)
+        public int ControlItems(int IdProd, int CarrId)
         {
             _connection = (SqlConnection)GetConnection();
             _connection.Open();
@@ -107,7 +107,7 @@ namespace BW_U_1.Service
             var command = GetCommand(
                 "SELECT Quantity FROM CartItems WHERE CartID = @Cartid AND ProductID = @IDProd"
             );
-            command.Parameters.Add(new SqlParameter("@Cartid", ProductID));
+            command.Parameters.Add(new SqlParameter("@Cartid", CarrId));
             command.Parameters.Add(new SqlParameter("@IDProd", IdProd));
             var reader = command.ExecuteReader();
 
@@ -124,10 +124,58 @@ namespace BW_U_1.Service
             }
         }
 
-        public void AddCartItem()
+        public IEnumerable<EstensioneProd> DeteilsCart(int CarrId)
         {
-            throw new NotImplementedException();
+            List<EstensioneProd> listaItems = new List<EstensioneProd>();
+            try
+            {
+                var _connection = (SqlConnection)GetConnection();
+                _connection.Open();
+                var command = GetCommand(
+                    @"SELECT p.ProductID, p.NameProd, p.DescriptionProd, p.Price, p.Category, c.Quantity FROM CartItems as C
+                    INNER JOIN Products as p ON c.ProductID = p.ProductID
+                    WHERE CartID = @CartID"
+                );
+                command.Parameters.Add(new SqlParameter("@CartID", CarrId));
+                var reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    listaItems.Add(CreateProd(reader));
+                }
+                return listaItems;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Errore durante l'aggiunta al carrello: {ex.Message}");
+                throw;
+            }
         }
+
+        public EstensioneProd CreateProd(DbDataReader reader)
+        {
+            return new EstensioneProd()
+            {
+                IdProd = reader.GetInt32(reader.GetOrdinal("ProductID")),
+                NameProd = reader.GetString(reader.GetOrdinal("NameProd")),
+                DescriptionProd = reader.GetString(reader.GetOrdinal("DescriptionProd")),
+                Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+                Category = reader.GetString(reader.GetOrdinal("Category")),
+                quantita = reader.GetInt32(reader.GetOrdinal("Quantity"))
+            };
+        }
+
+        //private Products CreateProd(DbDataReader reader)
+        //{
+        //    return new Products
+        //    {
+        //        IdProd = reader.GetInt32(reader.GetOrdinal("ProductID")),
+        //        NameProd = reader.GetString(reader.GetOrdinal("NameProd")),
+        //        DescriptionProd = reader.GetString(reader.GetOrdinal("DescriptionProd")),
+        //        Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+        //        Category = reader.GetString(reader.GetOrdinal("Category"))
+        //    };
+        //}
 
         public void RemoveCart()
         {

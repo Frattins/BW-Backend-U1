@@ -13,8 +13,14 @@
         <form method="post" asp-action="ScegliCarrello">
             <input type="hidden" name="IdCart" value="@cart.IdCart" />
                 <button type="submit" class="btn btn-outline-dark">
-                    Carr
+                    Scegli Carrello
                 </button>
+        </form>
+        <form method="post" asp-action="DeteilsCart">
+            <input type="hidden" name="IdCart" value="@cart.IdCart" />
+            <button type="submit" class="btn btn-outline-dark">
+                Dettagli Carrello
+            </button>
         </form>
     </div>
 }

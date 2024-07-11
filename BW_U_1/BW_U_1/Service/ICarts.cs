@@ -8,7 +8,7 @@ namespace BW_U_1.Service
         public void AddCart(int ID, int carrid);
         public void RemoveCart();
         public void RemoveCartItem();
-        public void AddCartItem();
+        public IEnumerable<EstensioneProd> DeteilsCart(int cartId);
 
     }
 }

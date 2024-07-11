@@ -103,9 +103,7 @@ namespace BW_U_1.Controllers
         //SCEGLI CARRELLO
         public IActionResult ScegliCarrello(int IdCart) 
         {
-            Console.WriteLine(IdCart);
             TempData["CarrelloID"] = IdCart;
-            Console.WriteLine(CarrelloID);
             return RedirectToAction("All");
         }
 
@@ -125,11 +123,15 @@ namespace BW_U_1.Controllers
             {
                 return RedirectToAction("AllCarrelli");
             }
-
-            
         }
 
         // **********************************************
+
+        public IActionResult DeteilsCart(int IdCart) 
+        {
+            var dettagli = _serviceCart.DeteilsCart(IdCart);
+            return View(dettagli); 
+        }
 
         public IActionResult Privacy()
         {

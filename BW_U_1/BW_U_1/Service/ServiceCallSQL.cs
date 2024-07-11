@@ -22,5 +22,19 @@ namespace BW_U_1.Service
         {
             return _connection;
         }
+
+        //funzione usata in più service
+        //CREA PRODOTTI
+        public Products CreateProd(DbDataReader reader)
+        {
+            return new Products
+            {
+                IdProd = reader.GetInt32(reader.GetOrdinal("ProductID")),
+                NameProd = reader.GetString(reader.GetOrdinal("NameProd")),
+                DescriptionProd = reader.GetString(reader.GetOrdinal("DescriptionProd")),
+                Price = reader.GetDecimal(reader.GetOrdinal("Price")),
+                Category = reader.GetString(reader.GetOrdinal("Category"))
+            };
+        }
     }
 }

@@ -72,19 +72,7 @@ namespace BW_U_1.Service
                 throw new Exception("Errore durante il recupero dei prodotti.", ex);
             }
         }
-
-        // CREA UN PRODOTTO
-        private Products CreateProd(DbDataReader reader)
-        {
-            return new Products
-            {
-                IdProd = reader.GetInt32(reader.GetOrdinal("ProductID")),
-                NameProd = reader.GetString(reader.GetOrdinal("NameProd")),
-                DescriptionProd = reader.GetString(reader.GetOrdinal("DescriptionProd")),
-                Price = reader.GetDecimal(reader.GetOrdinal("Price")),
-                Category = reader.GetString(reader.GetOrdinal("Category"))
-            };
-        }
+        
 
         // *********************************************************************************
 
