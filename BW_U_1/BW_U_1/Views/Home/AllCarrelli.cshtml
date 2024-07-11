@@ -1,0 +1,20 @@
+﻿@model List<Carts>
+
+
+@foreach (var cart in Model)
+{
+    <div class="card">
+        <div class="card-body">
+            @cart.IdCart
+        </div>
+        <div class="card-body">
+            @cart.Date
+        </div>
+        <form method="post" asp-action="ScegliCarrello">
+            <input type="hidden" name="IdCart" value="@cart.IdCart" />
+                <button type="submit" class="btn btn-outline-dark">
+                    Carr
+                </button>
+        </form>
+    </div>
+}

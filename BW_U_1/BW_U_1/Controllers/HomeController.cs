@@ -10,12 +10,17 @@ namespace BW_U_1.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IService _service;
+        private readonly ICarts _serviceCart;
+
+        //VALORI
+        static int CarrelloID = 0;
 
         //COSTRUTTORE
-        public HomeController(ILogger<HomeController> logger, IService service)
+        public HomeController(ILogger<HomeController> logger, IService service, ICarts serviceCart)
         {
             _logger = logger;
             _service = service;
+            _serviceCart = serviceCart;
         }
         // ***************
 
@@ -85,10 +90,48 @@ namespace BW_U_1.Controllers
             return RedirectToAction("All");
         }
 
-// **********************************************
+        // **********************************************
 
+        //INTERAZIONI CON CARRELLO:
+        // TUTTI I CARRELLI
+        public IActionResult AllCarrelli() 
+        {
+            var carts = _serviceCart.GetAllCarts();
+            return View(carts); 
+        }
 
-public IActionResult Privacy()
+        //SCEGLI CARRELLO
+        public IActionResult ScegliCarrello(int IdCart) 
+        {
+            Console.WriteLine(IdCart);
+            TempData["CarrelloID"] = IdCart;
+            Console.WriteLine(CarrelloID);
+            return RedirectToAction("All");
+        }
+
+        // AGGIUNGI PRODOTTO AL CARRELLO
+
+        public IActionResult AggiungiAdCart(int IdProd, int CarrelloID)
+        {
+            int IdCarr = Convert.ToInt32(TempData["CarrelloID"]);
+            Console.WriteLine("idprod: " + IdProd);
+            Console.WriteLine("Carrllo id: " + IdCarr);
+            if (IdCarr != 0)
+            {
+                _serviceCart.AddCart(IdProd, IdCarr);
+                return RedirectToAction("All");
+            }
+            else
+            {
+                return RedirectToAction("AllCarrelli");
+            }
+
+            
+        }
+
+        // **********************************************
+
+        public IActionResult Privacy()
         {
             return View();
         }

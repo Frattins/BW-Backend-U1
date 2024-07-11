@@ -1,9 +1,12 @@
 using BW_U_1.Service;
+using Microsoft.Extensions.Configuration;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IService, ServiceBase>();
+builder.Services.AddScoped<ICarts, ServiceCart>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
