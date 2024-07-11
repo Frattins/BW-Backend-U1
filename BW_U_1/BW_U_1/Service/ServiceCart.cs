@@ -9,6 +9,10 @@ namespace BW_U_1.Service
         {
             throw new NotImplementedException();
         }
+        public IEnumerable<Cart> GetAllCarts()
+        {
+            throw new NotImplementedException();
+        }
 
         public void AddCart()
         {
@@ -20,10 +24,6 @@ namespace BW_U_1.Service
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Cart> GetAllCarts()
-        {
-            throw new NotImplementedException();
-        }
 
         public void RemoveCart()
         {
