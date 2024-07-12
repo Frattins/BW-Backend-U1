@@ -18,5 +18,8 @@ namespace BW_U_1.Models
         [Display(Name = "Categoria")]
         [Required(ErrorMessage = "Il brand del prodotto è obbligatorio")]
         public string Category { get; set; }
+        [Display(Name = "Storia")]
+        [Required(ErrorMessage = "La story del prodotto è obbligatorio")]
+        public string Story { get; set; }   
     }
 }

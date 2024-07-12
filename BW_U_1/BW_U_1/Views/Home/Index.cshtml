@@ -1,8 +1,18 @@
-﻿@{
+﻿@model List<Products>
+@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h2>Storia delle Birre:</h2>
+<div class="d-flex flex-wrap">
+    @foreach (var birra in Model) {
+        <div class="card m-3 col-2">
+            <div class="card-body">
+                <h5 class="card-title fw-3">@birra.NameProd</h5>
+                <a href="@Url.Action("ProductDetails", new { id = birra.IdProd })" class="text-decoration-none text-dark">
+                    @birra.NameProd
+                </a>
+                <p class="card-text">@birra.Story</p>
+            </div>
+        </div>
+    }
 </div>

@@ -83,13 +83,15 @@ namespace BW_U_1.Service
             _connection = (SqlConnection)GetConnection();
             _connection.Open();
             var command = GetCommand(
-                "INSERT INTO Products (NameProd, DescriptionProd, Price, Category) VALUES (@NameProd, @DescriptionProd, @Price, @Category)"
+                "INSERT INTO Products (NameProd, DescriptionProd, Price, Category, Story) VALUES (@NameProd, @DescriptionProd, @Price, @Category, @Story)"
             );
 
             command.Parameters.Add(new SqlParameter("@NameProd", prodotto.NameProd));
             command.Parameters.Add(new SqlParameter("@DescriptionProd", prodotto.DescriptionProd));
             command.Parameters.Add(new SqlParameter("@Price", prodotto.Price));
             command.Parameters.Add(new SqlParameter("@Category", prodotto.Category));
+            command.Parameters.Add(new SqlParameter("@Story", prodotto.Story));
+
 
             command.ExecuteNonQuery();
             Console.WriteLine("Prodotto inserito con successo");
@@ -125,7 +127,8 @@ namespace BW_U_1.Service
                     NameProd = @NameProd, 
                     DescriptionProd = @DescriptionProd, 
                     Price = @Price, 
-                    Category = @Category
+                    Category = @Category,
+                    Story = @Story
                 WHERE ProductID = @ID"
             );
 
@@ -135,6 +138,8 @@ namespace BW_U_1.Service
                 command.Parameters.Add(new SqlParameter("@DescriptionProd", prodotto.DescriptionProd));
                 command.Parameters.Add(new SqlParameter("@Price", prodotto.Price));
                 command.Parameters.Add(new SqlParameter("@Category", prodotto.Category));
+                command.Parameters.Add(new SqlParameter("@Story", prodotto.Story));
+
 
                 _connection = (SqlConnection)GetConnection();
                 _connection.Open();

@@ -33,7 +33,8 @@ namespace BW_U_1.Service
                 NameProd = reader.GetString(reader.GetOrdinal("NameProd")),
                 DescriptionProd = reader.GetString(reader.GetOrdinal("DescriptionProd")),
                 Price = reader.GetDecimal(reader.GetOrdinal("Price")),
-                Category = reader.GetString(reader.GetOrdinal("Category"))
+                Category = reader.GetString(reader.GetOrdinal("Category")),
+                Story = reader.GetString(reader.GetOrdinal("Story"))
             };
         }
     }

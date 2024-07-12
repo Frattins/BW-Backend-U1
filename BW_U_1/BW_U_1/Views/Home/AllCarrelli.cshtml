@@ -1,19 +1,17 @@
 ﻿@model List<Carts>
 
+    <h2>Tutti i Carrelli:</h2>
 
 @foreach (var cart in Model)
 {
-    <div class="card">
+    <div class="card my-3">
         <div class="d-flex">
-            
-        
             <div class="col-11 ms-3">
-                <div class="card-body ms-1">
-                    @cart.IdCart
-                 </div>
-                 <div class="card-body">
-                     @cart.Date
-                 </div>
+                <div class="card-body ">
+                    <p>Carrello numero: @cart.IdCart</p>
+                    <p>Creato il: @cart.Date</p>
+                </div>
+                
                  <div class="d-flex">
                      <form class= "ms-3 mb-3" method="post" asp-action="ScegliCarrello">
                          <input type="hidden" name="IdCart" value="@cart.IdCart" />
@@ -29,19 +27,16 @@
                      </form>
                 </div>
             </div>
-            <div class="">
+            <div >
                 <form class="card-body text-end" method="post" asp-action="EliminaCarrello">
                     <input type="hidden" name="IdCart" value="@cart.IdCart" />
-                    <button type="submit" class="btn btn-outline-dark">
+                    <button type="submit" class="btn btn-outline-danger">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                         </svg>
                     </button>
                 </form>
             </div>
-        </div>
-        
-
-            
+        </div>     
     </div>
 }

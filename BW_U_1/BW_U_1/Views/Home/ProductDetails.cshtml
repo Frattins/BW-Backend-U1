@@ -1,8 +1,11 @@
 ﻿@model Products
 
-<div class="container">
-    <h1>@Model.NameProd</h1>
-    <h2>@Model.Category</h2>
-    <p>@Model.DescriptionProd</p>
-    <p>Price: @Model.Price &#8364;</p>
+<div class="card">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><h2>@Model.NameProd</h2></li>
+        <li class="list-group-item" @Model.Category</li>
+        <li class="list-group-item">@Model.DescriptionProd</li>
+        <li class="list-group-item">Price: @Model.Price &#8364;</li>
+        <li class="list-group-item">@Model.Story</li>
+    </ul>
 </div>

@@ -42,6 +42,7 @@ namespace BW_U_1.Service
             }
         }
 
+        
         //FUNZIONE AUSILIARE Crea Carrelli
         public Carts CreateCart(DbDataReader reader)
         {
@@ -52,6 +53,15 @@ namespace BW_U_1.Service
             };
         }
 
+        //CREA CARRELLO
+        public void CreaCart()
+        {
+            var _connection = (SqlConnection)GetConnection();
+            _connection.Open();
+            var command = GetCommand("INSERT INTO Carts DEFAULT VALUES");
+            command.ExecuteNonQuery();
+            _connection.Close();
+        }
         // *********************************************************************************
 
         public void AddCart(int IdProd, int CarrId)
@@ -84,8 +94,8 @@ namespace BW_U_1.Service
                         WHERE Cartid = @Cartid AND ProductID = @IDProd"
                     );
                     {
-                        //command.Parameters.Add(new SqlParameter("@Cartid", CarrId));
-                        //command.Parameters.Add(new SqlParameter("@IDProd", IdProd));
+                        command.Parameters.Add(new SqlParameter("@Cartid", CarrId));
+                        command.Parameters.Add(new SqlParameter("@IDProd", IdProd));
                         command.Parameters.Add(new SqlParameter("@Quantità", quantita + 1));
 
                         command.ExecuteNonQuery();
@@ -166,23 +176,6 @@ namespace BW_U_1.Service
             };
         }
 
-        //private Products CreateProd(DbDataReader reader)
-        //{
-        //    return new Products
-        //    {
-        //        IdProd = reader.GetInt32(reader.GetOrdinal("ProductID")),
-        //        NameProd = reader.GetString(reader.GetOrdinal("NameProd")),
-        //        DescriptionProd = reader.GetString(reader.GetOrdinal("DescriptionProd")),
-        //        Price = reader.GetDecimal(reader.GetOrdinal("Price")),
-        //        Category = reader.GetString(reader.GetOrdinal("Category"))
-        //    };
-        //}
-
-        public void RemoveCart()
-        {
-            throw new NotImplementedException();
-        }
-
         public void DeleteCart(int ID)
         {
             DeleteCartItemsByCartID(ID);
@@ -208,9 +201,46 @@ namespace BW_U_1.Service
             Console.WriteLine($"CartItems eliminati per IdCart {IdCart}.");
         }
 
-        public void RemoveCartItem()
+        public void AggiungiItem(int Cartid, int IDProd)
         {
-            throw new NotImplementedException();
+            var _connection = GetConnection();
+            int quantita = ControlItems(IDProd, Cartid);
+            _connection.Open();
+            var command = GetCommand("UPDATE CartItems SET Quantity = @Quantità WHERE Cartid = @Cartid AND ProductID = @IDProd");
+            command.Parameters.Add(new SqlParameter("@Cartid", Cartid));
+            command.Parameters.Add(new SqlParameter("@IDProd", IDProd));
+            command.Parameters.Add(new SqlParameter("@Quantità", quantita + 1));
+            command.ExecuteNonQuery();
+            _connection.Close();
+        }
+
+
+        //CREA CARRELLI
+
+        public void RimuoviItem(int Cartid, int IDProd)
+        {
+            var _connection = (SqlConnection)GetConnection();
+            int quantita = ControlItems(IDProd,Cartid);
+            _connection.Open();
+            if (quantita > 1)
+            {
+                var command = GetCommand("UPDATE CartItems SET Quantity = @Quantità WHERE Cartid = @Cartid AND ProductID = @IDProd");
+                command.Parameters.Add(new SqlParameter("@Cartid", Cartid));
+                command.Parameters.Add(new SqlParameter("@IDProd", IDProd));
+                command.Parameters.Add(new SqlParameter("@Quantità", quantita - 1));
+                command.ExecuteNonQuery ();
+                _connection.Close();
+            }
+            else
+            {
+                var command = GetCommand("DELETE FROM CartItems where CartID = @CartID AND ProductID = @ProductID");
+                command.Parameters.Add(new SqlParameter("@CartID", Cartid));
+                command.Parameters.Add(new SqlParameter("@ProductID", IDProd));
+                command.ExecuteNonQuery();
+                _connection.Close();
+            }
+
+
         }
     }
 }

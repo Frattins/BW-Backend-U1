@@ -13,7 +13,7 @@ namespace BW_U_1.Controllers
         private readonly ICarts _serviceCart;
 
         //VALORI
-        static int CarrelloID = 0;
+        int CarrelloID = 0;
 
         //COSTRUTTORE
         public HomeController(ILogger<HomeController> logger, IService service, ICarts serviceCart)
@@ -27,7 +27,8 @@ namespace BW_U_1.Controllers
         //PRIMA PAGINA "HOME"
         public IActionResult Index()
         {
-            return View();
+            var products = _service.GetCallAll();
+            return View(products);
         }
 
         // ***************
@@ -120,8 +121,6 @@ namespace BW_U_1.Controllers
         public IActionResult AggiungiAdCart(int IdProd, int CarrelloID)
         {
             int IdCarr = Convert.ToInt32(TempData["CarrelloID"]);
-            Console.WriteLine("idprod: " + IdProd);
-            Console.WriteLine("Carrllo id: " + IdCarr);
             if (IdCarr != 0)
             {
                 _serviceCart.AddCart(IdProd, IdCarr);
@@ -132,6 +131,13 @@ namespace BW_U_1.Controllers
                 return RedirectToAction("AllCarrelli");
             }
         }
+
+        //CREA CARRELLO
+        public IActionResult CreaCart() 
+        {
+            _serviceCart.CreaCart();
+            return RedirectToAction("AllCarrelli");
+        }  
 
         //ELIMINA CARRELLO
         [HttpPost]
@@ -150,7 +156,7 @@ namespace BW_U_1.Controllers
         {
             var dettagli = _serviceCart.DeteilsCart(IdCart).ToList();
             var total = dettagli.Sum(item => item.Price * item.quantita);
-
+            ViewBag.CartID = IdCart; 
             var viewModel = new CartDetailsViewModel
             {
                 Items = dettagli,
@@ -158,8 +164,27 @@ namespace BW_U_1.Controllers
             };
 
             return View(viewModel);
-        }       
+        }
 
+        //AGGIUNGI PRODOTTO CARRELLO
+        public IActionResult AggiungiItems(int IdProd, int IdCart) 
+        {
+            _serviceCart.AggiungiItem(IdCart, IdProd);
+            return RedirectToAction("DeteilsCart", new { IdCart = IdCart });
+        }
+
+        //RIMUOVI PRODOTTI
+        public IActionResult RimuoviItem(int IdProd, int IdCart)
+        {
+            _serviceCart.RimuoviItem(IdCart, IdProd);
+            return RedirectToAction("DeteilsCart", new { IdCart = IdCart });
+        }
+
+        //RITORNA ALLA HOME 
+        public IActionResult AtHome()
+        {
+            return RedirectToAction("All");
+        }
         public IActionResult Privacy()
         {
             return View();
