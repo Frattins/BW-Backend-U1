@@ -1,33 +1,39 @@
 ﻿@model List<Products>
 
- @foreach (var product in Model)
- {
+@foreach (var product in Model)
+{
     <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title">@product.NameProd</h5>
-        <h6 class="card-subtitle mb-2 text-body-secondary">@product.Category</h6>
-            <p class="card-text">@product.Price</p>
-            @* Bottone per Eliminare*@
-            <form method="post"  asp-action="ButtonElimina">
-                <input type="hidden" name="id" value="@product.IdProd" />
-                <button type="submit" class="btn btn-outline-dark">
-                    Elimina Prodotto
-                </button>
-            </form>
-            @* Bottone per Modificare*@
-            <form method="post" asp-action="FormModifica">
-                <input type="hidden" name="id" value="@product.IdProd" />
-                <button type="submit" class="btn btn-outline-dark">
-                    Modifica Prodotto
-                </button>
-            </form>
-            @*Bottone per Aggiungere al Carrello*@
+        <div class="card-body">
+            <h5 class="card-title">
+                <a href="@Url.Action("ProductDetails", new { id = product.IdProd })" class="text-decoration-none text-dark">
+                    @product.NameProd
+                </a>
+            </h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">@product.Category</h6>
+            <p class="card-text">@product.Price &#8364;</p>
+
+            @* Bottone per Eliminare *@
+        <form method="post" asp-action="ButtonElimina">
+        <input type="hidden" name="id" value="@product.IdProd" />
+        <button type="submit" class="btn btn-outline-dark">
+        Elimina Prodotto
+        </button>
+        </form>
+
+        @* Bottone per Modificare *@
+        <form method="post" asp-action="FormModifica">
+        <input type="hidden" name="id" value="@product.IdProd" />
+        <button type="submit" class="btn btn-outline-dark">
+        Modifica Prodotto
+        </button>
+        </form>
+
             <form method="post" asp-action="AggiungiAdCart">
                 <input type="hidden" name="IdProd" value="@product.IdProd" />
                 <button type="submit" class="btn btn-outline-dark">
-                    aggiungi al carrello
-                </Button>
+                    Aggiungi al Carrello
+                </button>
             </form>
-      </div>
+        </div>
     </div>
- }
+}

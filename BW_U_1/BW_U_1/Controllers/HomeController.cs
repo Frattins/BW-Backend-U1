@@ -49,6 +49,13 @@ namespace BW_U_1.Controllers
             return RedirectToAction("All");
             
         }
+
+        //DETTAGLI
+        public IActionResult ProductDetails(int id)
+        {
+            var product = _service.GetCallOneID(id);
+            return View(product);
+        }
         // **********************************************
 
         //FORM
@@ -77,6 +84,7 @@ namespace BW_U_1.Controllers
 
         // **********************************************
 
+        //MODIFICA IL FORM
         public IActionResult FormModifica(int ID) 
         {
            var prodotto = _service.GetCallOneID(ID);
@@ -137,11 +145,20 @@ namespace BW_U_1.Controllers
 
         // **********************************************
 
-        public IActionResult DeteilsCart(int IdCart) 
+        //DETTAGLI CARRELLO
+        public IActionResult DeteilsCart(int IdCart)
         {
-            var dettagli = _serviceCart.DeteilsCart(IdCart);
-            return View(dettagli); 
-        }
+            var dettagli = _serviceCart.DeteilsCart(IdCart).ToList();
+            var total = dettagli.Sum(item => item.Price * item.quantita);
+
+            var viewModel = new CartDetailsViewModel
+            {
+                Items = dettagli,
+                Total = total
+            };
+
+            return View(viewModel);
+        }       
 
         public IActionResult Privacy()
         {
