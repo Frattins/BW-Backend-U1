@@ -125,6 +125,16 @@ namespace BW_U_1.Controllers
             }
         }
 
+        //ELIMINA CARRELLO
+        [HttpPost]
+        public IActionResult EliminaCarrello(int IdCart) 
+        {
+            Console.WriteLine($"ID ricevuto: {IdCart}");
+            _serviceCart.DeleteCart(IdCart);
+
+            return RedirectToAction("AllCarrelli");
+        }
+
         // **********************************************
 
         public IActionResult DeteilsCart(int IdCart) 

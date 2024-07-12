@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics.Eventing.Reader;
 using System.Reflection.PortableExecutable;
 using BW_U_1.Models;
 
@@ -180,6 +181,31 @@ namespace BW_U_1.Service
         public void RemoveCart()
         {
             throw new NotImplementedException();
+        }
+
+        public void DeleteCart(int ID)
+        {
+            DeleteCartItemsByCartID(ID);
+
+            var com = "DELETE FROM Carts where CartID = @ID";
+            var command = GetCommand(com);
+            var _connection = GetConnection();
+            command.Parameters.Add(new SqlParameter("@ID", ID));
+            _connection.Open();
+            command.ExecuteNonQuery();
+            _connection.Close();
+        }
+
+        // FUNZIONE CHE ELIMINA UN PRODOTTO ANCHE NELLA TABLE <CART_ITEMS>
+        private void DeleteCartItemsByCartID(int IdCart)
+        {
+            var command = GetCommand("DELETE FROM CartItems WHERE CartID = @IdCart");
+            _connection = (SqlConnection)GetConnection();
+            _connection.Open();
+            command.Parameters.Add(new SqlParameter("@IdCart", IdCart));
+            command.ExecuteNonQuery();
+            _connection.Close();
+            Console.WriteLine($"CartItems eliminati per IdCart {IdCart}.");
         }
 
         public void RemoveCartItem()

@@ -22,5 +22,11 @@
                 Dettagli Carrello
             </button>
         </form>
+        <form method="post" asp-action="EliminaCarrello">
+            <input type="hidden" name="IdCart" value="@cart.IdCart" />
+            <button type="submit" class="btn btn-outline-dark">
+                Elimina Carrello
+            </button>
+        </form>
     </div>
 }
